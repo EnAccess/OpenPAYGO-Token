@@ -1,4 +1,4 @@
-from encode_code import OPAYGOEncoder
+from encode_token import OPAYGOEncoder
 from datetime import datetime, timedelta
 import codecs
 

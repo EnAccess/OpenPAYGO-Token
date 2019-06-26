@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from shared import OPAYGOShared
-from decode_code import OPAYGODecoder
+from decode_token import OPAYGODecoder
 
 
 class DeviceSimulator:

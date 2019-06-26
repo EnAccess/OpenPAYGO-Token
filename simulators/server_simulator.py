@@ -1,5 +1,5 @@
 from datetime import datetime
-from encode_code import OPAYGOEncoder
+from encode_token import OPAYGOEncoder
 from shared import OPAYGOShared
 
 
