@@ -1,5 +1,7 @@
 # EnAccess OPAYGO v1.0
 
+**This project is supported by the EnAccess Foundation (https://enaccess.org/)**
+
 **Note: Project name subject to change**
 
 **General Documentation:** https://docs.google.com/document/d/1n-B12shLFXy8j8mSEevNOp-GPPTGvR3iTD_TgnvfzW0/edit?usp=sharing
