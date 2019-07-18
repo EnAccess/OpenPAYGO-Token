@@ -4,12 +4,23 @@ from shared import OPAYGOShared
 class OPAYGOEncoder:
 
     @classmethod
-    def generate_token_activation(cls, starting_code, key, value, count):
+    def generate_token_activation(cls, starting_code, key, value, count, mode=OPAYGOShared.TOKEN_TYPE_SET_TIME):
         # We get the first 3 digits with encoded value
         starting_code_base = OPAYGOShared.get_token_base(starting_code)
         token_base = cls._encode_base(starting_code_base, value)
         current_token = OPAYGOShared.put_base_in_token(starting_code, token_base)
-        for xn in range(1, count + 1):
+        current_count_odd = count % 2
+        if mode == OPAYGOShared.TOKEN_TYPE_SET_TIME:
+            if current_count_odd: # Odd numbers are for Set Time
+                new_count = count+2
+            else:
+                new_count = count+1
+        else:
+            if current_count_odd: # Even numbers are for Add Time
+                new_count = count+1
+            else:
+                new_count = count+2
+        for xn in range(1, new_count):
             current_token = OPAYGOShared.generate_next_token(current_token, key)
         final_token = OPAYGOShared.put_base_in_token(current_token, token_base)
         return final_token
