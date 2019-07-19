@@ -59,4 +59,6 @@ class DeviceSimulator:
             self.expiration_date = datetime.now() + timedelta(days=number_of_days)
         else:
             print('Mode: Add Time')
+            if self.expiration_date < datetime.now():
+                self.expiration_date = datetime.now()
             self.expiration_date = self.expiration_date + timedelta(days=number_of_days)
