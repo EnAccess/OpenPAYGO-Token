@@ -3,7 +3,7 @@ from shared import OPAYGOShared
 
 class OPAYGODecoder:
     MAX_TOKEN_JUMP = 30
-    MAX_TOKEN_JUMP_COUNTER_SYNC = 300
+    MAX_TOKEN_JUMP_COUNTER_SYNC = 100
 
     @classmethod
     def get_activation_value_count_and_type_from_token(cls, token, starting_code, key, last_count):
@@ -19,7 +19,7 @@ class OPAYGODecoder:
             max_count_try = last_count + cls.MAX_TOKEN_JUMP + 1
         for count in range(0, max_count_try):
             masked_token = OPAYGOShared.put_base_in_token(current_code, token_base)
-            if masked_token == token and count > last_count:
+            if masked_token == token and cls._count_is_valid(count, last_count, value):
                 clean_count = count-1
                 if clean_count % 2:
                     type = OPAYGOShared.TOKEN_TYPE_SET_TIME
@@ -28,6 +28,19 @@ class OPAYGODecoder:
                 return value, clean_count, type
             current_code = OPAYGOShared.generate_next_token(current_code, key) # If not we go to the next token
         return None, None, None
+
+    @classmethod
+    def _count_is_valid(cls, count, last_count, value):
+        if value == OPAYGOShared.COUNTER_SYNC_VALUE:
+            if count > last_count - 30:
+                return True
+            else:
+                return False
+        else:
+            if count > last_count:
+                return True
+            else:
+                return False
 
     @classmethod
     def _decode_base(cls, starting_code_base, token_base):
