@@ -43,4 +43,34 @@ class OPAYGOShared:
             temp = temp - 73741825
         return temp
 
+    @classmethod
+    def convert_to_4_digit_token(cls, source):
+        restricted_digit_token = ''
+        bit_array = cls._bit_array_from_int(source, 30)
+        for i in range(15):
+            this_array = bit_array[i*2:(i*2)+2]
+            restricted_digit_token += str(cls._bit_array_to_int(this_array)+1)
+        return int(restricted_digit_token)
 
+    @classmethod
+    def convert_from_4_digit_token(cls, source):
+        bit_array = []
+        for digit in str(source):
+            digit = int(digit) - 1
+            this_array = cls._bit_array_from_int(digit, 2)
+            bit_array += this_array
+        return cls._bit_array_to_int(bit_array)
+
+    @classmethod
+    def _bit_array_to_int(cls, bit_array):
+        integer = 0
+        for bit in bit_array:
+            integer = (integer << 1) | bit
+        return integer
+
+    @classmethod
+    def _bit_array_from_int(cls, source, bits):
+        bit_array = []
+        for i in range(bits):
+            bit_array += [bool(source & (1 << (bits - 1 - i)))]
+        return bit_array

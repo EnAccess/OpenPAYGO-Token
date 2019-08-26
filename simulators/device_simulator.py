@@ -12,6 +12,7 @@ class DeviceSimulator:
         self.expiration_date = datetime.now()
         self.payg_enabled = True
         self.time_divider = 1
+        self.restricted_digit_set = True
 
     def print_status(self):
         print('-------------------------')
@@ -33,7 +34,8 @@ class DeviceSimulator:
             token=token,
             starting_code=self.starting_code,
             key=self.key,
-            last_count=self.count
+            last_count=self.count,
+            restricted_digit_set=self.restricted_digit_set
         )
         if token_value is None:
             print('TOKEN_INVALID')

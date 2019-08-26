@@ -6,7 +6,10 @@ class OPAYGODecoder:
     MAX_TOKEN_JUMP_COUNTER_SYNC = 100
 
     @classmethod
-    def get_activation_value_count_and_type_from_token(cls, token, starting_code, key, last_count):
+    def get_activation_value_count_and_type_from_token(cls, token, starting_code, key, last_count,
+                                                       restricted_digit_set=False):
+        if restricted_digit_set:
+            token = OPAYGOShared.convert_from_4_digit_token(token)
         token_base = OPAYGOShared.get_token_base(token) # We get the base of the token
         current_code = OPAYGOShared.put_base_in_token(starting_code, token_base) # We put it into the starting code
         starting_code_base = OPAYGOShared.get_token_base(starting_code) # We get the base of the starting code

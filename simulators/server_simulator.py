@@ -13,6 +13,7 @@ class SingleDeviceServerSimulator:
         self.furthest_expiration_date = datetime.now()
         self.payg_enabled = True
         self.time_divider = 1
+        self.restricted_digit_set = True
 
     def print_status(self):
         print('Expiration Date: '+ str(self.expiration_date))
@@ -25,7 +26,8 @@ class SingleDeviceServerSimulator:
             starting_code=self.starting_code,
             key=self.key,
             value=OPAYGOShared.PAYG_DISABLE_VALUE,
-            count=self.count
+            count=self.count,
+            restricted_digit_set=self.restricted_digit_set
         )
 
     def generate_counter_sync_token(self):
@@ -33,7 +35,8 @@ class SingleDeviceServerSimulator:
             starting_code=self.starting_code,
             key=self.key,
             value=OPAYGOShared.COUNTER_SYNC_VALUE,
-            count=self.count
+            count=self.count,
+            restricted_digit_set=self.restricted_digit_set
         )
 
     def generate_token_from_date(self, new_expiration_date, force=False):
@@ -63,7 +66,8 @@ class SingleDeviceServerSimulator:
             key=self.key,
             value=value,
             count=self.count,
-            mode=mode
+            mode=mode,
+            restricted_digit_set=self.restricted_digit_set
         )
 
     def _get_value_to_activate(self):
@@ -73,5 +77,6 @@ class SingleDeviceServerSimulator:
             days = self._timedelta_to_days(self.expiration_date - datetime.now())
             return int(round(days*self.time_divider, 0))
 
-    def _timedelta_to_days(self, this_timedelta):
+    @staticmethod
+    def _timedelta_to_days(this_timedelta):
         return this_timedelta.days + (this_timedelta.seconds / 3600 / 24)

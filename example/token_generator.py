@@ -19,7 +19,8 @@ if __name__ == '__main__':
         starting_code=device_starting_code,
         key=codecs.decode(device_key_hex, 'hex'),
         value=days_to_activate,
-        count=device_last_count+1
+        count=device_last_count+1,
+        restricted_digit_set=True
     )
 
     print(str(activation_code))
