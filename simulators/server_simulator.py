@@ -5,7 +5,7 @@ from shared import OPAYGOShared
 
 class SingleDeviceServerSimulator:
 
-    def __init__(self, starting_code, key, starting_count=0):
+    def __init__(self, starting_code, key, starting_count=0, restricted_digit_set=False):
         self.starting_code = starting_code
         self.key = key
         self.count = starting_count
@@ -13,7 +13,7 @@ class SingleDeviceServerSimulator:
         self.furthest_expiration_date = datetime.now()
         self.payg_enabled = True
         self.time_divider = 1
-        self.restricted_digit_set = True
+        self.restricted_digit_set = restricted_digit_set
 
     def print_status(self):
         print('Expiration Date: '+ str(self.expiration_date))
