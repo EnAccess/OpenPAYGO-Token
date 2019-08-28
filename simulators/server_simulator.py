@@ -10,6 +10,7 @@ class SingleDeviceServerSimulator:
         self.key = key
         self.count = starting_count
         self.expiration_date = datetime.now()
+        self.furthest_expiration_date = datetime.now()
         self.payg_enabled = True
 
     def print_status(self):
@@ -28,21 +29,32 @@ class SingleDeviceServerSimulator:
 
     def generate_token_from_date(self, new_expiration_date, force=False):
         self.expiration_date = new_expiration_date
+        furthest_expiration_date = self.furthest_expiration_date
+        if new_expiration_date > self.furthest_expiration_date:
+            self.furthest_expiration_date = new_expiration_date
         days_to_activate = self._get_number_of_days_to_activate()
+
         if days_to_activate > OPAYGOShared.MAX_VALUE:
             if not force:
                 raise Exception('TOO_MANY_DAYS_TO_ACTIVATE')
             else:
                 days_to_activate = OPAYGOShared.MAX_VALUE # Will need to be activated again after those days
-        return self._generate_token_from_days(days_to_activate)
 
-    def _generate_token_from_days(self, days_to_activate):
+        if new_expiration_date > furthest_expiration_date:
+            # If the date is strictly above the furthest date activated, use ADD
+            return self._generate_token_from_days(days_to_activate, mode=OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+        else:
+            # If the date is below or equal to the furthest date activated, use SET
+            return self._generate_token_from_days(days_to_activate, mode=OPAYGOShared.TOKEN_TYPE_SET_TIME)
+
+    def _generate_token_from_days(self, days_to_activate, mode):
         self.count += 1
         return OPAYGOEncoder.generate_token_activation(
             starting_code=self.starting_code,
             key=self.key,
             value=days_to_activate,
-            count=self.count
+            count=self.count,
+            mode=mode
         )
 
     def _get_number_of_days_to_activate(self):

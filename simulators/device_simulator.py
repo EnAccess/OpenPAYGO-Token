@@ -28,7 +28,7 @@ class DeviceSimulator:
         self._update_device_status_from_token(token_int)
 
     def _update_device_status_from_token(self, token):
-        token_value, token_count = OPAYGODecoder.get_activation_value_and_count_from_token(
+        token_value, token_count, token_type = OPAYGODecoder.get_activation_value_count_and_type_from_token(
             token=token,
             starting_code=self.starting_code,
             key=self.key,
@@ -38,14 +38,19 @@ class DeviceSimulator:
             print('TOKEN_INVALID')
         else:
             self.count = token_count
-            self._update_device_status_from_token_value(token_value)
+            self._update_device_status_from_token_value(token_value, token_type)
 
-    def _update_device_status_from_token_value(self, token_value):
+    def _update_device_status_from_token_value(self, token_value, token_type):
         if token_value == OPAYGOShared.PAYG_DISABLE_VALUE:
             self.payg_enabled = False
         else:
             self.payg_enabled = True
-            self._update_expiration_date_from_days(token_value)
+            self._update_expiration_date_from_days(token_value, token_type)
 
-    def _update_expiration_date_from_days(self, number_of_days):
-        self.expiration_date = datetime.now() + timedelta(days=number_of_days)
+    def _update_expiration_date_from_days(self, number_of_days, token_type):
+        if token_type == OPAYGOShared.TOKEN_TYPE_SET_TIME:
+            print('Mode: Set Time')
+            self.expiration_date = datetime.now() + timedelta(days=number_of_days)
+        else:
+            print('Mode: Add Time')
+            self.expiration_date = self.expiration_date + timedelta(days=number_of_days)

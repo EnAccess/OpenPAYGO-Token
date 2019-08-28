@@ -6,6 +6,8 @@ class OPAYGOShared:
     MAX_VALUE = 995
     PAYG_DISABLE_VALUE = 998
     TOKEN_VALUE_OFFSET = 1000
+    TOKEN_TYPE_SET_TIME = 1
+    TOKEN_TYPE_ADD_TIME = 2
 
     @classmethod
     def get_token_base(cls, code):
