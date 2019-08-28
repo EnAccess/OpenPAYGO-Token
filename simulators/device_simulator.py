@@ -41,11 +41,17 @@ class DeviceSimulator:
             self._update_device_status_from_token_value(token_value, token_type)
 
     def _update_device_status_from_token_value(self, token_value, token_type):
-        if token_value == OPAYGOShared.PAYG_DISABLE_VALUE:
-            self.payg_enabled = False
-        else:
+        if token_value <= OPAYGOShared.MAX_ACTIVATION_VALUE:
             self.payg_enabled = True
             self._update_expiration_date_from_days(token_value, token_type)
+        elif token_value == OPAYGOShared.PAYG_DISABLE_VALUE:
+            self.payg_enabled = False
+        elif token_value != OPAYGOShared.COUNTER_SYNC_VALUE:
+            # We do nothing if its the sync counter value, the counter has been synced already
+            print('COUNTER_SYNCED')
+        else:
+            # If it's another value we also do nothing, as they are not defined
+            print('UNKNOWN_COMMAND')
 
     def _update_expiration_date_from_days(self, number_of_days, token_type):
         if token_type == OPAYGOShared.TOKEN_TYPE_SET_TIME:
@@ -53,4 +59,6 @@ class DeviceSimulator:
             self.expiration_date = datetime.now() + timedelta(days=number_of_days)
         else:
             print('Mode: Add Time')
+            if self.expiration_date < datetime.now():
+                self.expiration_date = datetime.now()
             self.expiration_date = self.expiration_date + timedelta(days=number_of_days)
