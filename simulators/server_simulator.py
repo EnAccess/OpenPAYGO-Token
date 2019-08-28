@@ -12,6 +12,7 @@ class SingleDeviceServerSimulator:
         self.expiration_date = datetime.now()
         self.furthest_expiration_date = datetime.now()
         self.payg_enabled = True
+        self.time_divider = 1
 
     def print_status(self):
         print('Expiration Date: '+ str(self.expiration_date))
@@ -40,36 +41,37 @@ class SingleDeviceServerSimulator:
         furthest_expiration_date = self.furthest_expiration_date
         if new_expiration_date > self.furthest_expiration_date:
             self.furthest_expiration_date = new_expiration_date
-        days_to_activate = self._get_number_of_days_to_activate()
+        value = self._get_value_to_activate()
 
-        if days_to_activate > OPAYGOShared.MAX_ACTIVATION_VALUE:
+        if value > OPAYGOShared.MAX_ACTIVATION_VALUE:
             if not force:
                 raise Exception('TOO_MANY_DAYS_TO_ACTIVATE')
             else:
-                days_to_activate = OPAYGOShared.MAX_ACTIVATION_VALUE # Will need to be activated again after those days
+                value = OPAYGOShared.MAX_ACTIVATION_VALUE # Will need to be activated again after those days
 
         if new_expiration_date > furthest_expiration_date:
             # If the date is strictly above the furthest date activated, use ADD
-            return self._generate_token_from_days(days_to_activate, mode=OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+            return self._generate_token_from_value(value, mode=OPAYGOShared.TOKEN_TYPE_ADD_TIME)
         else:
             # If the date is below or equal to the furthest date activated, use SET
-            return self._generate_token_from_days(days_to_activate, mode=OPAYGOShared.TOKEN_TYPE_SET_TIME)
+            return self._generate_token_from_value(value, mode=OPAYGOShared.TOKEN_TYPE_SET_TIME)
 
-    def _generate_token_from_days(self, days_to_activate, mode):
+    def _generate_token_from_value(self, value, mode):
         self.count += 1
         return OPAYGOEncoder.generate_token_activation(
             starting_code=self.starting_code,
             key=self.key,
-            value=days_to_activate,
+            value=value,
             count=self.count,
             mode=mode
         )
 
-    def _get_number_of_days_to_activate(self):
+    def _get_value_to_activate(self):
         if self.expiration_date <= datetime.now():
             return 0
         else:
-            return self._timedelta_to_days(self.expiration_date - datetime.now())
+            days = self._timedelta_to_days(self.expiration_date - datetime.now())
+            return int(round(days*self.time_divider, 0))
 
     def _timedelta_to_days(self, this_timedelta):
-        return this_timedelta.days + int(round(this_timedelta.seconds / 3600 / 24, 0))
+        return this_timedelta.days + (this_timedelta.seconds / 3600 / 24)
