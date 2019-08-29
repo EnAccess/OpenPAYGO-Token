@@ -1,13 +1,12 @@
 from encode_token import OPAYGOEncoder
-from datetime import datetime, timedelta
 import codecs
 
 
 # Input for the code to be generated
 device_key_hex = 'a29ab82edc5fbbc41ec9530f6dac86b1'
 device_starting_code = 123456789
-device_last_count = 0
-days_to_activate = 1
+device_last_count = 1
+days_to_activate = 7
 
 
 if __name__ == '__main__':
@@ -20,8 +19,7 @@ if __name__ == '__main__':
         key=codecs.decode(device_key_hex, 'hex'),
         value=days_to_activate,
         count=device_last_count+1,
-        restricted_digit_set=True
+        restricted_digit_set=False
     )
 
     print(str(activation_code))
-

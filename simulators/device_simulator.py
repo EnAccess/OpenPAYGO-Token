@@ -5,7 +5,7 @@ from decode_token import OPAYGODecoder
 
 class DeviceSimulator:
 
-    def __init__(self, starting_code, key, starting_count=0, restricted_digit_set=False):
+    def __init__(self, starting_code, key, starting_count=1, restricted_digit_set=False):
         self.starting_code = starting_code
         self.key = key
         self.count = starting_count
