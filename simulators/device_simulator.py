@@ -5,17 +5,18 @@ from decode_token import OPAYGODecoder
 
 class DeviceSimulator:
 
-    def __init__(self, starting_code, key, starting_count=1, restricted_digit_set=False, waiting_period_enabled=True):
+    def __init__(self, starting_code, key, starting_count=1, restricted_digit_set=False, waiting_period_enabled=True, time_divider=1):
         self.starting_code = starting_code
         self.key = key
+        self.time_divider = time_divider
+        self.restricted_digit_set = restricted_digit_set
+        self.waiting_period_enabled = waiting_period_enabled  # Should always be true except for testing
+
+        self.payg_enabled = True
         self.count = starting_count
         self.expiration_date = datetime.now()
-        self.payg_enabled = True
-        self.time_divider = 1
-        self.restricted_digit_set = restricted_digit_set
-        self.token_entry_blocked_until = datetime.now()
         self.invalid_token_count = 0
-        self.waiting_period_enabled = waiting_period_enabled # Should always be true except for testing
+        self.token_entry_blocked_until = datetime.now()
 
     def print_status(self):
         print('-------------------------')
