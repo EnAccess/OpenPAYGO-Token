@@ -2,7 +2,11 @@ from encode_token import OPAYGOEncoder
 import codecs
 
 
-# Input for the code to be generated
+# Inputs for the code to be generated
+# ------ IMPORTANT WARNING --------
+# DO NOT USE THIS KEY IN PRODUCTION
+# IT IS JUST AN EXAMPLE
+# ---------------------------------
 device_key_hex = 'a29ab82edc5fbbc41ec9530f6dac86b1'
 device_starting_code = 123456789
 device_last_count = 1

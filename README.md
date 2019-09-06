@@ -1,4 +1,4 @@
-# EnAccess OPAYGO v2.0
+# OpenPAYGO v2.0
 
 **This project is supported by the EnAccess Foundation (https://enaccess.org/)**
 
