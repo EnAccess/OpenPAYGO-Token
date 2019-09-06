@@ -5,14 +5,14 @@ from shared import OPAYGOShared
 
 class SingleDeviceServerSimulator:
 
-    def __init__(self, starting_code, key, starting_count=1, restricted_digit_set=False):
+    def __init__(self, starting_code, key, starting_count=1, restricted_digit_set=False, time_divider=1):
         self.starting_code = starting_code
         self.key = key
         self.count = starting_count
         self.expiration_date = datetime.now()
         self.furthest_expiration_date = datetime.now()
         self.payg_enabled = True
-        self.time_divider = 1
+        self.time_divider = time_divider
         self.restricted_digit_set = restricted_digit_set
 
     def print_status(self):
