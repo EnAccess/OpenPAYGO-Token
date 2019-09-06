@@ -22,7 +22,7 @@ class SingleDeviceServerSimulator:
 
     def generate_payg_disable_token(self):
         self.count += 1
-        return OPAYGOEncoder.generate_token_activation(
+        return OPAYGOEncoder.generate_standard_token(
             starting_code=self.starting_code,
             key=self.key,
             value=OPAYGOShared.PAYG_DISABLE_VALUE,
@@ -31,7 +31,7 @@ class SingleDeviceServerSimulator:
         )
 
     def generate_counter_sync_token(self):
-        return OPAYGOEncoder.generate_token_activation(
+        return OPAYGOEncoder.generate_standard_token(
             starting_code=self.starting_code,
             key=self.key,
             value=OPAYGOShared.COUNTER_SYNC_VALUE,
@@ -61,7 +61,7 @@ class SingleDeviceServerSimulator:
 
     def _generate_token_from_value(self, value, mode):
         self.count += 1
-        return OPAYGOEncoder.generate_token_activation(
+        return OPAYGOEncoder.generate_standard_token(
             starting_code=self.starting_code,
             key=self.key,
             value=value,
@@ -69,6 +69,9 @@ class SingleDeviceServerSimulator:
             mode=mode,
             restricted_digit_set=self.restricted_digit_set
         )
+
+    def _generate_extended_value_token(self, value):
+        pass
 
     def _get_value_to_activate(self):
         if self.expiration_date <= datetime.now():

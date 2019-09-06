@@ -30,8 +30,12 @@ class DeviceSimulator:
         return self.expiration_date > datetime.now()
 
     def enter_token(self, token):
-        token_int = int(token)
-        self._update_device_status_from_token(token_int)
+        if len(token) == 9:
+            token_int = int(token)
+            self._update_device_status_from_token(token_int)
+        else:
+            token_int = int(token)
+            self._update_device_status_from_extended_token(token_int)
 
     def _update_device_status_from_token(self, token):
         if self.token_entry_blocked_until > datetime.now() and self.waiting_period_enabled:
@@ -51,6 +55,17 @@ class DeviceSimulator:
             self.invalid_token_count = 0
             self.count = token_count
             self._update_device_status_from_token_value(token_value, token_type)
+
+    def _update_device_status_from_extended_token(self, token):
+        if self.token_entry_blocked_until > datetime.now() and self.waiting_period_enabled:
+            print('TOKEN_ENTRY_BLOCKED')
+        token_value, token_count = OPAYGODecoder.get_activation_value_count_from_extended_token(token)
+        if token_value is None:
+            print('TOKEN_INVALID')
+            self.invalid_token_count += 1
+            self.token_entry_blocked_until = datetime.now() + timedelta(minutes=2**self.invalid_token_count)
+        else:
+            print('Special token entered, value: '+str(token_value))
 
     def _update_device_status_from_token_value(self, token_value, token_type):
         if token_value <= OPAYGOShared.MAX_ACTIVATION_VALUE:

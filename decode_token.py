@@ -1,4 +1,5 @@
 from shared import OPAYGOShared
+from shared_extended import OPAYGOSharedExtended
 
 
 class OPAYGODecoder:
@@ -50,5 +51,30 @@ class OPAYGODecoder:
         decoded_value = token_base - starting_code_base
         if decoded_value < 0:
             return decoded_value + 1000
+        else:
+            return decoded_value
+
+    @classmethod
+    def get_activation_value_count_from_extended_token(cls, token, starting_code, key, last_count,
+                                                       restricted_digit_set=False):
+        if restricted_digit_set:
+            token = OPAYGOSharedExtended.convert_from_4_digit_token(token)
+        token_base = OPAYGOSharedExtended.get_token_base(token) # We get the base of the token
+        current_code = OPAYGOSharedExtended.put_base_in_token(starting_code, token_base) # We put it into the starting code
+        starting_code_base = OPAYGOSharedExtended.get_token_base(starting_code) # We get the base of the starting code
+        value = cls._decode_base_extended(starting_code_base, token_base)  # If there is a match we get the value from the token
+        for count in range(0, 30):
+            masked_token = OPAYGOSharedExtended.put_base_in_token(current_code, token_base)
+            if masked_token == token and count > last_count:
+                clean_count = count-1
+                return value, clean_count
+            current_code = OPAYGOSharedExtended.generate_next_token(current_code, key) # If not we go to the next token
+        return None, None, None
+
+    @classmethod
+    def _decode_base_extended(cls, starting_code_base, token_base):
+        decoded_value = token_base - starting_code_base
+        if decoded_value < 0:
+            return decoded_value + 1000000
         else:
             return decoded_value

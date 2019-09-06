@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
         starting_code = OPAYGOShared.put_base_in_token(i*1000, token_base)
 
-        activation_code = OPAYGOEncoder.generate_token_activation(
+        activation_code = OPAYGOEncoder.generate_standard_token(
             starting_code=starting_code,
             key=device_key,
             value=known_value,
@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
         if activation_code == code_count_1:
 
-            activation_code_2 = OPAYGOEncoder.generate_token_activation(
+            activation_code_2 = OPAYGOEncoder.generate_standard_token(
                 starting_code=starting_code,
                 key=device_key,
                 value=known_value,

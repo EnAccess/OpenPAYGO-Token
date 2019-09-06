@@ -1,4 +1,5 @@
 from encode_token import OPAYGOEncoder
+from decode_token import OPAYGODecoder
 import codecs
 
 
@@ -9,7 +10,7 @@ import codecs
 # ---------------------------------
 device_key_hex = 'a29ab82edc5fbbc41ec9530f6dac86b1'
 device_starting_code = 123456789
-device_last_count = 1
+device_last_count = 2
 days_to_activate = 7
 
 
@@ -18,7 +19,7 @@ if __name__ == '__main__':
     print('The code will have the count (number of codes generated before) of '+str(device_last_count)+'. ')
     print('The code will contain ' + str(days_to_activate) + ' days of activation. ')
 
-    activation_code = OPAYGOEncoder.generate_token_activation(
+    activation_code = OPAYGOEncoder.generate_standard_token(
         starting_code=device_starting_code,
         key=codecs.decode(device_key_hex, 'hex'),
         value=days_to_activate,
@@ -27,3 +28,4 @@ if __name__ == '__main__':
     )
 
     print(str(activation_code))
+
