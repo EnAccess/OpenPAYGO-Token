@@ -20,7 +20,6 @@ class OPAYGOSharedExtended:
     @classmethod
     def generate_next_token(cls, last_code, key):
         conformed_token = struct.pack('>Q', last_code) # We convert the token to bytes
-        conformed_token += conformed_token # We duplicate it to fit the minimum length
         token_hash = siphash.SipHash_2_4(key, conformed_token).hash() # We hash it
         new_token = cls._convert_hash_to_token(token_hash) # We convert to token and return
         return new_token
