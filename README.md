@@ -1,8 +1,8 @@
-# OpenPAYGO v2.0
+# OpenPAYGO Token v2.0
 
 **This project is supported by the EnAccess Foundation (https://enaccess.org/)**
 
-**Note: Project name subject to change**
+**Hardware implementation with generic C version + Arduino + schematics:** https://github.com/EnAccess/OpenPAYGO-HW
 
 **General Documentation:** https://docs.google.com/document/d/1n-B12shLFXy8j8mSEevNOp-GPPTGvR3iTD_TgnvfzW0/edit?usp=sharing
 
