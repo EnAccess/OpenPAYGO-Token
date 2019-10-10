@@ -24,12 +24,11 @@ class OPAYGODecoder:
         for count in range(0, max_count_try):
             masked_token = OPAYGOShared.put_base_in_token(current_code, token_base)
             if masked_token == token and cls._count_is_valid(count, last_count, value):
-                clean_count = count-1
-                if clean_count % 2:
+                if count % 2:
                     type = OPAYGOShared.TOKEN_TYPE_SET_TIME
                 else:
                     type = OPAYGOShared.TOKEN_TYPE_ADD_TIME
-                return value, clean_count, type
+                return value, count, type
             current_code = OPAYGOShared.generate_next_token(current_code, key) # If not we go to the next token
         return None, None, None
 

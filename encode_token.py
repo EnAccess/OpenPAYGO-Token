@@ -22,12 +22,12 @@ class OPAYGOEncoder:
                 new_count = count+1
             else:
                 new_count = count+2
-        for xn in range(1, new_count):
+        for xn in range(0, new_count):
             current_token = OPAYGOShared.generate_next_token(current_token, key)
         final_token = OPAYGOShared.put_base_in_token(current_token, token_base)
         if restricted_digit_set:
             final_token = OPAYGOShared.convert_to_4_digit_token(final_token)
-        return final_token
+        return new_count, final_token
 
     @classmethod
     def _encode_base(cls, base, number):
@@ -42,12 +42,12 @@ class OPAYGOEncoder:
         token_base = cls._encode_base_extended(starting_code_base, value)
         current_token = OPAYGOSharedExtended.put_base_in_token(starting_code, token_base)
         new_count = count + 1
-        for xn in range(1, new_count):
+        for xn in range(0, new_count):
             current_token = OPAYGOSharedExtended.generate_next_token(current_token, key)
         final_token = OPAYGOSharedExtended.put_base_in_token(current_token, token_base)
         if restricted_digit_set:
             final_token = OPAYGOSharedExtended.convert_to_4_digit_token(final_token)
-        return final_token
+        return new_count, final_token
 
     @classmethod
     def _encode_base_extended(cls, base, number):
