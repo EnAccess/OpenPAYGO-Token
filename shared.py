@@ -13,7 +13,7 @@ class OPAYGOShared:
 
     @classmethod
     def get_token_base(cls, code):
-        return int(code % cls.TOKEN_VALUE_OFFSET)
+        return int(code) % cls.TOKEN_VALUE_OFFSET
 
     @classmethod
     def put_base_in_token(cls, token, token_base):
@@ -32,8 +32,8 @@ class OPAYGOShared:
     @classmethod
     def _convert_hash_to_token(cls, this_hash):
         hash_int = struct.pack('>Q', this_hash) # We convert the hash to bytes
-        hi_hash = int.from_bytes(hash_int[0:4], byteorder='big', signed=False) # We split it in two 32bits INT
-        lo_hash = int.from_bytes(hash_int[4:8], byteorder='big', signed=False)
+        hi_hash = struct.unpack('>L', hash_int[0:4])[0]  # We split it in two 32bits INT
+        lo_hash = struct.unpack('>L', hash_int[4:8])[0]
         result_hash = hi_hash ^ lo_hash # We XOR the two together to get a single 32bits INT
         token = cls._convert_to_29_5_bits(result_hash) # We convert the 32bits value to an INT no greater than 9 digits
         return token
