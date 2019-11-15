@@ -1,4 +1,4 @@
-# OpenPAYGO Token v2.0
+# OpenPAYGO Token v2
 
 This project is supported by the EnAccess Foundation (https://enaccess.org/)
 
@@ -11,6 +11,13 @@ If you have pulled or downloaded this implementation before the official OpenPAY
 please make sure to update to the latest version before using in production. 
 
 ## CHANGELOG
+
+2019-11-15: v2.1 release
+- Added documentation about how to allow entry of slightly older tokens on device (unordered token entry)
+- Added an example of unordered token entry (with test scenario) on the Python implementation
+- Ensured compatibility of the Python code with Python v2.7+ (in addition to Python 3+ already supported).
+
+**Note:** This version is fully retro-compatible with the v2.0, the tokens themselves do not change. Changes can be implemented on devices that wish to support unordered token entry but are not required. No change is required on servers. 
 
 2019-10-10: v2.0 release
 - Improved the test suite
