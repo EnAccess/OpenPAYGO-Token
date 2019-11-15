@@ -54,7 +54,7 @@ class DeviceSimulator:
             self.invalid_token_count += 1
             self.token_entry_blocked_until = datetime.now() + timedelta(minutes=2**self.invalid_token_count)
         else:
-            if token_count > self.count:
+            if token_count > self.count or token_value == OPAYGOShared.COUNTER_SYNC_VALUE:
                 self.count = token_count
             self.used_counts = OPAYGODecoder.update_used_counts(self.used_counts, token_value, token_count, token_type)
             self.invalid_token_count = 0
