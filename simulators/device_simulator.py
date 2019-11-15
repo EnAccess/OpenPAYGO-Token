@@ -17,6 +17,7 @@ class DeviceSimulator:
         self.expiration_date = datetime.now()
         self.invalid_token_count = 0
         self.token_entry_blocked_until = datetime.now()
+        self.used_counts = []
 
     def print_status(self):
         print('-------------------------')
@@ -45,21 +46,30 @@ class DeviceSimulator:
             starting_code=self.starting_code,
             key=self.key,
             last_count=self.count,
-            restricted_digit_set=self.restricted_digit_set
+            restricted_digit_set=self.restricted_digit_set,
+            used_counts=self.used_counts
         )
         if token_value is None:
             print('TOKEN_INVALID')
             self.invalid_token_count += 1
             self.token_entry_blocked_until = datetime.now() + timedelta(minutes=2**self.invalid_token_count)
         else:
+            if token_count > self.count:
+                self.count = token_count
+            self.used_counts = OPAYGODecoder.update_used_counts(self.used_counts, token_value, token_count, token_type)
             self.invalid_token_count = 0
-            self.count = token_count
             self._update_device_status_from_token_value(token_value, token_type)
 
     def _update_device_status_from_extended_token(self, token):
         if self.token_entry_blocked_until > datetime.now() and self.waiting_period_enabled:
             print('TOKEN_ENTRY_BLOCKED')
-        token_value, token_count = OPAYGODecoder.get_activation_value_count_from_extended_token(token)
+        token_value, token_count = OPAYGODecoder.get_activation_value_count_from_extended_token(
+            token=token,
+            starting_code=self.starting_code,
+            key=self.key,
+            last_count=self.count,
+            restricted_digit_set=self.restricted_digit_set
+        )
         if token_value is None:
             print('TOKEN_INVALID')
             self.invalid_token_count += 1

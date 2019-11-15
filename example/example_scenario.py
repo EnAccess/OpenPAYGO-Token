@@ -1,5 +1,5 @@
 from simulators.device_simulator import DeviceSimulator
-from simulators.server_simulator import SingleDeviceServerSimulator
+from simulators.server_simulator import SingleDeviceServerSimulator, OPAYGOShared
 from datetime import datetime, timedelta
 
 
@@ -112,4 +112,69 @@ if __name__ == '__main__':
     print('Device: We check the device status (should be active with 1 day and the count synchronised with the server)')
     device_simulator.print_status()
     assert device_simulator.count == server_simulator.count
+    assert_time_equals(device_simulator.expiration_date, datetime.now() + timedelta(days=1))
+
+    print('\n')
+    print('Server: We add generate 6 tokens each add-time of 1 day')
+    token_1 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_2 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_3 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_4 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_5 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_6 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    print('Tokens: ', token_1, token_2, token_3, token_4, token_5, token_6)
+    print('Device: We enter the 6th token into the device')
+    device_simulator.enter_token(token_6)
+    print('Device: We check the device status (should be active with +1 day (2 days total)')
+    device_simulator.print_status()
+    assert device_simulator.count == server_simulator.count
+    assert_time_equals(device_simulator.expiration_date, datetime.now() + timedelta(days=2))
+    print('Device: We enter the 1st token into the device')
+    device_simulator.enter_token(token_1)
+    print('Device: We check the device status , it should not have changed, because its more than 5 add times before')
+    device_simulator.print_status()
+    assert_time_equals(device_simulator.expiration_date, datetime.now() + timedelta(days=2))
+    print('Device: We enter the tokens 5, 4, 3 and 2 into the device')
+    device_simulator.enter_token(token_5)
+    device_simulator.enter_token(token_4)
+    device_simulator.enter_token(token_3)
+    device_simulator.enter_token(token_2)
+    print('Device: We check the device status , it should have +4 days (6 days total)')
+    device_simulator.print_status()
+    assert_time_equals(device_simulator.expiration_date, datetime.now() + timedelta(days=6))
+
+    print('\n')
+    print('Server: We add generate 2 tokens, first add-time and then set-time')
+    token_1 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_2 = server_simulator._generate_token_from_value(0, OPAYGOShared.TOKEN_TYPE_SET_TIME)
+    print('Tokens: ', token_1, token_2)
+    print('Device: We enter the 2nd token')
+    device_simulator.enter_token(token_2)
+    print('Device: We check the device status should be active in 0 days.')
+    device_simulator.print_status()
+    assert device_simulator.count == server_simulator.count
+    assert_time_equals(device_simulator.expiration_date, datetime.now() + timedelta(days=0))
+    print('Device: We enter the 1st token into the device')
+    device_simulator.enter_token(token_1)
+    print('Device: We check the device status , it should not have changed, '
+          'because you cannot use an add-time token older than a set-time')
+    device_simulator.print_status()
+    assert_time_equals(device_simulator.expiration_date, datetime.now() + timedelta(days=0))
+
+    print('\n')
+    print('Server: We add generate 2 tokens, first add-time and then set-time')
+    token_1 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_SET_TIME)
+    token_2 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    print('Tokens: ', token_1, token_2)
+    print('Device: We enter the 2nd token')
+    device_simulator.enter_token(token_2)
+    print('Device: We check the device status should be active in 0 days.')
+    device_simulator.print_status()
+    assert device_simulator.count == server_simulator.count
+    assert_time_equals(device_simulator.expiration_date, datetime.now() + timedelta(days=1))
+    print('Device: We enter the 1st token into the device')
+    device_simulator.enter_token(token_1)
+    print('Device: We check the device status , it should not have changed, '
+          'because you cannot use an older set-time token')
+    device_simulator.print_status()
     assert_time_equals(device_simulator.expiration_date, datetime.now() + timedelta(days=1))
