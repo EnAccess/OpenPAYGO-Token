@@ -2,7 +2,7 @@ from shared import OPAYGOShared
 from shared_extended import OPAYGOSharedExtended
 
 
-class OPAYGOEncoder:
+class OPAYGOEncoder(object):
 
     @classmethod
     def generate_standard_token(cls, starting_code, key, value, count,

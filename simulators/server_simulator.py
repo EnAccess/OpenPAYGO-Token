@@ -3,7 +3,7 @@ from encode_token import OPAYGOEncoder
 from shared import OPAYGOShared
 
 
-class SingleDeviceServerSimulator:
+class SingleDeviceServerSimulator(object):
 
     def __init__(self, starting_code, key, starting_count=1, restricted_digit_set=False, time_divider=1):
         self.starting_code = starting_code

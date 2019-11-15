@@ -2,7 +2,7 @@ from shared import OPAYGOShared
 from shared_extended import OPAYGOSharedExtended
 
 
-class OPAYGODecoder:
+class OPAYGODecoder(object):
     MAX_TOKEN_JUMP = 30
     MAX_TOKEN_JUMP_COUNTER_SYNC = 100
     MAX_UNUSED_OLDER_TOKENS = 5*2

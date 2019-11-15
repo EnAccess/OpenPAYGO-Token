@@ -2,7 +2,7 @@ import siphash
 import struct
 
 
-class OPAYGOSharedExtended:
+class OPAYGOSharedExtended(object):
     MAX_BASE = 999999
     MAX_ACTIVATION_VALUE = 999999
     TOKEN_VALUE_OFFSET_EXTENDED = 1000000

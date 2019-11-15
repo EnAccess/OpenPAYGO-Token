@@ -3,7 +3,7 @@ from shared import OPAYGOShared
 from decode_token import OPAYGODecoder
 
 
-class DeviceSimulator:
+class DeviceSimulator(object):
 
     def __init__(self, starting_code, key, starting_count=1, restricted_digit_set=False, waiting_period_enabled=True, time_divider=1):
         self.starting_code = starting_code

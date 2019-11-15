@@ -2,7 +2,7 @@ import siphash
 import struct
 
 
-class OPAYGOShared:
+class OPAYGOShared(object):
     MAX_BASE = 999
     MAX_ACTIVATION_VALUE = 995
     PAYG_DISABLE_VALUE = 998
