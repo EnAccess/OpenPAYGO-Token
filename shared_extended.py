@@ -2,7 +2,7 @@ import siphash
 import struct
 
 
-class OPAYGOSharedExtended:
+class OPAYGOSharedExtended(object):
     MAX_BASE = 999999
     MAX_ACTIVATION_VALUE = 999999
     TOKEN_VALUE_OFFSET_EXTENDED = 1000000
@@ -26,9 +26,7 @@ class OPAYGOSharedExtended:
 
     @classmethod
     def _convert_hash_to_token(cls, this_hash):
-        hash_int = struct.pack('>Q', this_hash) # We convert the hash to bytes
-        hash = int.from_bytes(hash_int, byteorder='big', signed=False)
-        token = cls._convert_to_40_bits(hash) # We convert the 64bits value to an INT no greater than 12 digits
+        token = cls._convert_to_40_bits(this_hash) # We convert the 64bits value to an INT no greater than 12 digits
         return token
 
     @classmethod
