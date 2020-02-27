@@ -4,11 +4,20 @@ This project is supported by the EnAccess Foundation (https://enaccess.org/)
 
 Hardware implementation with generic C version + Arduino + schematics: https://github.com/EnAccess/OpenPAYGO-HW
 
-**See the documentation folder for a general overview of the system as well as for information on how to use the examples.**
+
+## GETTING STARTED
+
+1. Have a look at the general documentation: https://github.com/EnAccess/OpenPAYGO/blob/master/documentation/general_documentation.pdf
+
+2. The source code of the example implementation into a device (including an example for begginers implemented on Arduino): https://github.com/EnAccess/OpenPAYGO-HW
+
+3. The guide for the example, including a quick test to see if you have implemented the code properly into your system: https://github.com/EnAccess/OpenPAYGO/blob/master/documentation/example_implementation_documentation.pdf
+
 
 ## NOTE 
 If you have pulled or downloaded this implementation before the official OpenPAYGO Token release on the 10th of October 2019, 
 please make sure to update to the latest version before using in production. 
+
 
 ## CHANGELOG
 
@@ -37,3 +46,5 @@ please make sure to update to the latest version before using in production.
 
 2019-07-19: v2.0 alpha
 - First functional pre-release version
+
+**Note:** The v1.0 version was only provided to a few partners for a limited beta test and to gather feedback useful to make the v2.0, it is not published here, is not compatible with the v2.0 and should not be used in production. 
