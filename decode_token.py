@@ -38,20 +38,13 @@ class OPAYGODecoder(object):
         if value == OPAYGOShared.COUNTER_SYNC_VALUE:
             if count > last_count - 30:
                 return True
-            else:
-                return False
+        elif count > last_count:
+            return True
         elif cls.MAX_UNUSED_OLDER_TOKENS > 0:
-            if count > last_count:
-                return True
-            elif count > last_count - cls.MAX_UNUSED_OLDER_TOKENS:
+            if count > last_count - cls.MAX_UNUSED_OLDER_TOKENS:
                 if count not in used_counts and type == OPAYGOShared.TOKEN_TYPE_ADD_TIME:
                     return True
-            return False
-        else:
-            if count > last_count:
-                return True
-            else:
-                return False
+        return False
 
     @classmethod
     def update_used_counts(cls, past_used_counts, value, new_count, type):
