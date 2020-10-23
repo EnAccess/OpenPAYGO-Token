@@ -21,14 +21,18 @@ please make sure to update to the latest version before using in production.
 
 ## CHANGELOG
 
-2019-11-15: v2.1 release
+2020-10-23: v2.1.1 release
+- Added tool to generate CSV files with device data; the data can then be used for factory setup and software setup
+- Added a tool to flash device data onto devices in factory (from the CSV file); it is compatible with the Arduino examples of the hardware repository
+
+2019-11-15: v2.1.0 release
 - Added documentation about how to allow entry of slightly older tokens on device (unordered token entry)
 - Added an example of unordered token entry (with test scenario) on the Python implementation
 - Ensured compatibility of the Python code with Python v2.7+ (in addition to Python 3+ already supported).
 
 **Note:** This version is fully retro-compatible with the v2.0, the tokens themselves do not change. Changes can be implemented on devices that wish to support unordered token entry but are not required. No change is required on servers. 
 
-2019-10-10: v2.0 release
+2019-10-10: v2.0.0 release
 - Improved the test suite
 - Added an extra example in the implementation documentation
 - Bugfix in the example server implementation leading to count not always being updated correctly
