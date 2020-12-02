@@ -1,24 +1,19 @@
-from encode_token import OPAYGOEncoder, OPAYGOShared
-from decode_token import OPAYGODecoder
+from openpaygo import OPAYGOEncoder, OPAYGOShared, OPAYGODecoder
 import codecs
 
-
-# Inputs for the code to be generated
-# ------ IMPORTANT WARNING --------
-# DO NOT USE THIS KEY IN PRODUCTION
-# IT IS JUST AN EXAMPLE
-# ---------------------------------
 device_key_hex = 'a29ab82edc5fbbc41ec9530f6dac86b1'
 device_starting_code = 123456789
-raise Exception("Please change the key and starting code and remove this exception. ")
 device_last_count = 4
 days_to_activate = 7
 
 
 if __name__ == '__main__':
-    print('Generating code for device with key '+device_key_hex+' and starting code '+str(device_starting_code)+'. ')
-    print('The code will have the count (number of codes generated before) of '+str(device_last_count)+'. ')
-    print('The code will contain ' + str(days_to_activate) + ' days of activation. ')
+    print('Generating code for device with key '+device_key_hex +
+          ' and starting code '+str(device_starting_code)+'. ')
+    print('The code will have the count (number of codes generated before) of ' +
+          str(device_last_count)+'. ')
+    print('The code will contain ' +
+          str(days_to_activate) + ' days of activation. ')
 
     new_count, token = OPAYGOEncoder.generate_standard_token(
         starting_code=device_starting_code,
@@ -38,4 +33,3 @@ if __name__ == '__main__':
         last_count=device_last_count
     )
     print(value, count, type)
-
