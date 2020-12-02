@@ -1,6 +1,5 @@
 from datetime import datetime
-from encode_token import OPAYGOEncoder
-from shared import OPAYGOShared
+from openpaygo import OPAYGOEncoder, OPAYGOShared
 
 
 class SingleDeviceServerSimulator(object):
@@ -16,7 +15,7 @@ class SingleDeviceServerSimulator(object):
         self.restricted_digit_set = restricted_digit_set
 
     def print_status(self):
-        print('Expiration Date: '+ str(self.expiration_date))
+        print('Expiration Date: ' + str(self.expiration_date))
         print('Current count: '+str(self.count))
         print('PAYG Enabled: '+str(self.payg_enabled))
 
@@ -47,12 +46,14 @@ class SingleDeviceServerSimulator(object):
 
         if new_expiration_date > furthest_expiration_date:
             # If the date is strictly above the furthest date activated, use ADD
-            value = self._get_value_to_activate(new_expiration_date, self.expiration_date, force)
+            value = self._get_value_to_activate(
+                new_expiration_date, self.expiration_date, force)
             self.expiration_date = new_expiration_date
             return self._generate_token_from_value(value, mode=OPAYGOShared.TOKEN_TYPE_ADD_TIME)
         else:
             # If the date is below or equal to the furthest date activated, use SET
-            value = self._get_value_to_activate(new_expiration_date, datetime.now(), force)
+            value = self._get_value_to_activate(
+                new_expiration_date, datetime.now(), force)
             self.expiration_date = new_expiration_date
             return self._generate_token_from_value(value, mode=OPAYGOShared.TOKEN_TYPE_SET_TIME)
 
@@ -80,7 +81,8 @@ class SingleDeviceServerSimulator(object):
                 if not force_maximum:
                     raise Exception('TOO_MANY_DAYS_TO_ACTIVATE')
                 else:
-                    return OPAYGOShared.MAX_ACTIVATION_VALUE  # Will need to be activated again after those days
+                    # Will need to be activated again after those days
+                    return OPAYGOShared.MAX_ACTIVATION_VALUE
             return value
 
     @staticmethod
