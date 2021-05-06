@@ -42,5 +42,26 @@ def test_accepted(test_name, token, expected, description=''):
     print(test_name+','+token+','+expected_string+',"'+description+'"')
 
 
+def test_how_many_days_validator(device_simulator, test_name, token, value_days=None, value_raw=None, device_data=None, description=''):
+    if value_days is None:
+        if value_raw is not None:
+            value_days = value_raw/device_data['time_divider']
+        else:
+            value_days = 'infinite'
+    if device_simulator.enter_token(token.replace(' ', '')):
+        if device_simulator.get_days_remaining() == value_days:
+            print(test_name+': Passed')
+            return
+    print(test_name+': Failed')
+
+
+def test_accepted_validator(device_simulator, test_name, token, expected, description=''):
+    if device_simulator.enter_token(token.replace(' ', '')) == expected:
+        print(test_name+': Passed')
+        return
+    else:
+        print(test_name+': Failed')
+
+
 def test_name(test_base_name, test_number):
     return test_base_name+chr(test_number+64)

@@ -3,9 +3,9 @@ from shared_extended import OPAYGOSharedExtended
 
 
 class OPAYGODecoder(object):
-    MAX_TOKEN_JUMP = 30
+    MAX_TOKEN_JUMP = 64
     MAX_TOKEN_JUMP_COUNTER_SYNC = 100
-    MAX_UNUSED_OLDER_TOKENS = 5*2
+    MAX_UNUSED_OLDER_TOKENS = 8*2
 
     @classmethod
     def get_activation_value_count_and_type_from_token(cls, token, starting_code, key, last_count,
@@ -53,7 +53,7 @@ class OPAYGODecoder(object):
             highest_count = new_count
         bottom_range = highest_count-cls.MAX_UNUSED_OLDER_TOKENS
         used_counts = []
-        if type != OPAYGOShared.TOKEN_TYPE_ADD_TIME or value == OPAYGOShared.COUNTER_SYNC_VALUE:
+        if type != OPAYGOShared.TOKEN_TYPE_ADD_TIME or value == OPAYGOShared.COUNTER_SYNC_VALUE or value == OPAYGOShared.PAYG_DISABLE_VALUE:
             # If it is not an Add-Time token, we mark all the past tokens as used in the range
             for count in range(bottom_range, highest_count+1):
                 used_counts.append(count)
