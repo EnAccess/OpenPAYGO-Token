@@ -23,45 +23,50 @@ def run_core_token_tests(device_data, device_simulator):
     device_data, token_g3 = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=1)
     test_how_many_days_validator(device_simulator, 'G3', token_g3, 2, description=test)
 
+    test = 'We enter the same Add Time token for 1 day, the days should not be added and the device should signal that the token was already used'
+    test_how_many_days_validator(device_simulator, 'G4A', token_g3, 2, description=test)
+    test = 'We enter the older Set Time token for 1 day, the days should not change and the device should signal that the token was already used'
+    test_how_many_days_validator(device_simulator, 'G4B', token_g2, 2, description=test)
+
     test = 'We enter a valid token for setting 30 days and ensures it sets and does not add to the existing'
-    device_data, token_g4 = generate_from_device_data(device_data, token_type=SET_TIME, value_days=30)
-    test_how_many_days_validator(device_simulator, 'G4', token_g4, 30, description=test)
+    device_data, token_g5 = generate_from_device_data(device_data, token_type=SET_TIME, value_days=30)
+    test_how_many_days_validator(device_simulator, 'G5', token_g5, 30, description=test)
 
     test = 'We enter a valid token for setting 0 days and ensures the device is inactive with the outputs disabled immediately'
-    device_data, token_g5 = generate_from_device_data(device_data, token_type=SET_TIME, value_days=0)
-    test_how_many_days_validator(device_simulator, 'G5', token_g5, 0, description=test)
+    device_data, token_g6 = generate_from_device_data(device_data, token_type=SET_TIME, value_days=0)
+    test_how_many_days_validator(device_simulator, 'G6', token_g6, 0, description=test)
 
     test = 'We enter 3 consecutive Add Time tokens with the maximum amount of days and ensure that they cumulate properly'
     for i in range(1,3+1):
-        device_data, token_g6 = generate_from_device_data(device_data, token_type=ADD_TIME, value_raw=995*i)
-        test_how_many_days_validator(device_simulator, test_name('G6', i), token_g6, value_raw=995*i, device_data=device_data, description=test)
+        device_data, token_g7 = generate_from_device_data(device_data, token_type=ADD_TIME, value_raw=995)
+        test_how_many_days_validator(device_simulator, test_name('G7', i), token_g7, value_raw=995*i, device_data=device_data, description=test)
         test = ''
 
     test = 'We enter 21 consecutive Set Time tokens for 1, 2, 3, … 21 days each with a count 30 higher than the other. The validation of the token should not take more than 5 seconds'
     for i in range(1,21+1):
-        device_data, token_g7 = generate_from_device_data(device_data, token_type=SET_TIME, value_days=i, token_count=device_data['token_count']+29)
-        test_how_many_days_validator(device_simulator, test_name('G7', i), token_g7, value_days=i, device_data=device_data, description=test)
+        device_data, token_g8 = generate_from_device_data(device_data, token_type=SET_TIME, value_days=i, token_count=device_data['token_count']+29)
+        test_how_many_days_validator(device_simulator, test_name('G8', i), token_g8, value_days=i, device_data=device_data, description=test)
         test = ''
 
     test = 'We enter a PAYG Disable token into the device'
-    device_data, token_g8 = generate_from_device_data(device_data, token_type=SET_TIME, value_raw=DISABLE_VALUE)
-    test_how_many_days_validator(device_simulator, 'G8', token_g8, None, description=test)
+    device_data, token_g9 = generate_from_device_data(device_data, token_type=SET_TIME, value_raw=DISABLE_VALUE)
+    test_how_many_days_validator(device_simulator, 'G9', token_g9, None, description=test)
 
     test = 'We enter a Set Time token for 0 day, it should relock the device'
-    device_data, token_g9 = generate_from_device_data(device_data, token_type=SET_TIME, value_days=0)
-    test_how_many_days_validator(device_simulator, 'G9', token_g9, 0, description=test)
+    device_data, token_g10 = generate_from_device_data(device_data, token_type=SET_TIME, value_days=0)
+    test_how_many_days_validator(device_simulator, 'G10', token_g10, 0, description=test)
 
     test = 'We enter a PAYG Disable token to relock the device, then enter a Add Time token with 0 day, it should NOT relock the device (Optional)'
-    device_data, token_g10a = generate_from_device_data(device_data, token_type=SET_TIME, value_raw=DISABLE_VALUE)
-    test_how_many_days_validator(device_simulator, 'G10A', token_g10a, None, description=test)
-    device_data, token_g10b = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=0)
-    test_how_many_days_validator(device_simulator, 'G10B', token_g10b, None)
+    device_data, token_g11a = generate_from_device_data(device_data, token_type=SET_TIME, value_raw=DISABLE_VALUE)
+    test_how_many_days_validator(device_simulator, 'G11A', token_g11a, None, description=test)
+    device_data, token_g11b = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=0)
+    test_how_many_days_validator(device_simulator, 'G11B', token_g11b, None)
 
     test = 'We deactivate the device with a Set Time of 0 days. We then wait 48 hours before entering a Add Time of 1 day and ensuring that the days late are not considered in the activation time'
-    device_data, token_g11a = generate_from_device_data(device_data, token_type=SET_TIME, value_days=0)
-    test_how_many_days_validator(device_simulator, 'G11A', token_g11a, 0, description=test)
-    device_data, token_g11b = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=1)
-    test_how_many_days_validator(device_simulator, 'G11B', token_g11b, 1)
+    device_data, token_g12a = generate_from_device_data(device_data, token_type=SET_TIME, value_days=0)
+    test_how_many_days_validator(device_simulator, 'G12A', token_g12a, 0, description=test)
+    device_data, token_g12b = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=1)
+    test_how_many_days_validator(device_simulator, 'G12B', token_g12b, 1)
     
     return device_data
 
@@ -83,14 +88,14 @@ def run_unordered_entry_tests(device_data, device_simulator):
     device_data, token_u2b = generate_from_device_data(device_data, token_type=SET_TIME, value_days=10)
     device_data, token_u2c = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=3)
     test_how_many_days_validator(device_simulator, 'U2A', token_u2b, 10, description=test)
-    test_accepted_validator(device_simulator, 'U2B', token_u2a, False)
+    test_how_many_days_validator(device_simulator, 'U2B', token_u2a, 10)
     test_how_many_days_validator(device_simulator, 'U2C', token_u2c, 13)
 
     test = 'We generate an Add Time token and a Disable PAYG token, we enter the Disable PAYG token and then the Add Time token should be refused'
     device_data, token_u3a = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=1)
     device_data, token_u3b = generate_from_device_data(device_data, token_type=ADD_TIME, value_raw=DISABLE_VALUE)
     test_how_many_days_validator(device_simulator, 'U3A', token_u3b, None, description=test)
-    test_accepted_validator(device_simulator, 'U3B', token_u3a, False)
+    test_how_many_days_validator(device_simulator, 'U3B', token_u3a, None)
 
     return device_data
 

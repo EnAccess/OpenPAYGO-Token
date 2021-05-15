@@ -12,6 +12,7 @@ class OPAYGODecoder(object):
                                                        restricted_digit_set=False, used_counts=None):
         if restricted_digit_set:
             token = OPAYGOShared.convert_from_4_digit_token(token)
+        valid_older_token = False
         token_base = OPAYGOShared.get_token_base(token) # We get the base of the token
         current_code = OPAYGOShared.put_base_in_token(starting_code, token_base) # We put it into the starting code
         starting_code_base = OPAYGOShared.get_token_base(starting_code) # We get the base of the starting code
@@ -28,9 +29,14 @@ class OPAYGODecoder(object):
                 type = OPAYGOShared.TOKEN_TYPE_SET_TIME
             else:
                 type = OPAYGOShared.TOKEN_TYPE_ADD_TIME
-            if masked_token == token and cls._count_is_valid(count, last_count, value, type, used_counts):
-                return value, count, type
+            if masked_token == token:
+                if cls._count_is_valid(count, last_count, value, type, used_counts):
+                    return value, count, type
+                else:
+                    valid_older_token = True
             current_code = OPAYGOShared.generate_next_token(current_code, key) # If not we go to the next token
+        if valid_older_token:
+            return -2, None, None
         return None, None, None
 
     @classmethod

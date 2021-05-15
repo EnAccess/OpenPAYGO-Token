@@ -26,6 +26,7 @@ please make sure to update to the latest version before using in production.
 - Clarify ambiguity about the re-enabling of PAYG
 - Ensured the example implementations used the recommended values
 - Added full test procedure for the device simulator
+- Clarified UI to differentiate between invalid and already used
 
 2020-10-23: v2.1.1 release
 - Added tool to generate CSV files with device data; the data can then be used for factory setup and software setup

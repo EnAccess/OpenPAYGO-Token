@@ -30,13 +30,13 @@ class DeviceSimulator(object):
     def is_active(self):
         return self.expiration_date > datetime.now()
 
-    def enter_token(self, token):
+    def enter_token(self, token, show_result=True):
         if len(token) == 9:
             token_int = int(token)
-            return self._update_device_status_from_token(token_int)
+            return self._update_device_status_from_token(token_int, show_result)
         else:
             token_int = int(token)
-            return self._update_device_status_from_extended_token(token_int)
+            return self._update_device_status_from_extended_token(token_int, show_result)
     
     def get_days_remaining(self):
         if self.payg_enabled:
@@ -47,9 +47,11 @@ class DeviceSimulator(object):
         else:
             return 'infinite'
 
-    def _update_device_status_from_token(self, token):
+    def _update_device_status_from_token(self, token, show_result=True):
         if self.token_entry_blocked_until > datetime.now() and self.waiting_period_enabled:
-            print('TOKEN_ENTRY_BLOCKED')
+            if show_result:
+                print('TOKEN_ENTRY_BLOCKED')
+            return False
         token_value, token_count, token_type = OPAYGODecoder.get_activation_value_count_and_type_from_token(
             token=token,
             starting_code=self.starting_code,
@@ -59,11 +61,18 @@ class DeviceSimulator(object):
             used_counts=self.used_counts
         )
         if token_value is None:
-            print('TOKEN_INVALID')
+            if show_result:
+                print('TOKEN_INVALID')
             self.invalid_token_count += 1
             self.token_entry_blocked_until = datetime.now() + timedelta(minutes=2**self.invalid_token_count)
             return False
+        elif token_value == -2:
+            if show_result:
+                print('OLD_TOKEN')
+            return True
         else:
+            if show_result:
+                print('TOKEN_VALID')
             if token_count > self.count or token_value == OPAYGOShared.COUNTER_SYNC_VALUE:
                 self.count = token_count
             self.used_counts = OPAYGODecoder.update_used_counts(self.used_counts, token_value, token_count, token_type)
