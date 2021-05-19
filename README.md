@@ -21,6 +21,13 @@ please make sure to update to the latest version before using in production.
 
 ## CHANGELOG
 
+2021-05-04: v2.1.4 release
+- Added tool to automatically generate spreadsheets with tokens for the test procedure
+- Clarify ambiguity about the re-enabling of PAYG
+- Ensured the example implementations used the recommended values
+- Added full test procedure for the device simulator
+- Clarified UI to differentiate between invalid and already used
+
 2020-10-23: v2.1.1 release
 - Added tool to generate CSV files with device data; the data can then be used for factory setup and software setup
 - Added a tool to flash device data onto devices in factory (from the CSV file); it is compatible with the Arduino examples of the hardware repository

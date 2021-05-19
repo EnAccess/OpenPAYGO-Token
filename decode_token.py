@@ -3,15 +3,16 @@ from shared_extended import OPAYGOSharedExtended
 
 
 class OPAYGODecoder(object):
-    MAX_TOKEN_JUMP = 30
+    MAX_TOKEN_JUMP = 64
     MAX_TOKEN_JUMP_COUNTER_SYNC = 100
-    MAX_UNUSED_OLDER_TOKENS = 5*2
+    MAX_UNUSED_OLDER_TOKENS = 8*2
 
     @classmethod
     def get_activation_value_count_and_type_from_token(cls, token, starting_code, key, last_count,
                                                        restricted_digit_set=False, used_counts=None):
         if restricted_digit_set:
             token = OPAYGOShared.convert_from_4_digit_token(token)
+        valid_older_token = False
         token_base = OPAYGOShared.get_token_base(token) # We get the base of the token
         current_code = OPAYGOShared.put_base_in_token(starting_code, token_base) # We put it into the starting code
         starting_code_base = OPAYGOShared.get_token_base(starting_code) # We get the base of the starting code
@@ -28,9 +29,14 @@ class OPAYGODecoder(object):
                 type = OPAYGOShared.TOKEN_TYPE_SET_TIME
             else:
                 type = OPAYGOShared.TOKEN_TYPE_ADD_TIME
-            if masked_token == token and cls._count_is_valid(count, last_count, value, type, used_counts):
-                return value, count, type
+            if masked_token == token:
+                if cls._count_is_valid(count, last_count, value, type, used_counts):
+                    return value, count, type
+                else:
+                    valid_older_token = True
             current_code = OPAYGOShared.generate_next_token(current_code, key) # If not we go to the next token
+        if valid_older_token:
+            return -2, None, None
         return None, None, None
 
     @classmethod
@@ -53,7 +59,7 @@ class OPAYGODecoder(object):
             highest_count = new_count
         bottom_range = highest_count-cls.MAX_UNUSED_OLDER_TOKENS
         used_counts = []
-        if type != OPAYGOShared.TOKEN_TYPE_ADD_TIME or value == OPAYGOShared.COUNTER_SYNC_VALUE:
+        if type != OPAYGOShared.TOKEN_TYPE_ADD_TIME or value == OPAYGOShared.COUNTER_SYNC_VALUE or value == OPAYGOShared.PAYG_DISABLE_VALUE:
             # If it is not an Add-Time token, we mark all the past tokens as used in the range
             for count in range(bottom_range, highest_count+1):
                 used_counts.append(count)
