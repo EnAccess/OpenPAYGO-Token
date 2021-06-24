@@ -1,6 +1,10 @@
+import os, sys, inspect
+parentdir = os.path.dirname(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))))
+sys.path.insert(0, parentdir)
 from simulators.device_simulator import DeviceSimulator
 from simulators.server_simulator import SingleDeviceServerSimulator, OPAYGOShared
 from datetime import datetime, timedelta
+import codecs
 
 
 def assert_time_equals(time1, time2):
@@ -114,16 +118,19 @@ if __name__ == '__main__':
     assert_time_equals(device_simulator.expiration_date, datetime.now() + timedelta(days=1))
 
     print('\n')
-    print('Server: We add generate 6 tokens each add-time of 1 day')
+    print('Server: We add generate 9 tokens each add-time of 1 day')
     token_1 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
     token_2 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
     token_3 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
     token_4 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
     token_5 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
     token_6 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
-    print('Tokens: ', token_1, token_2, token_3, token_4, token_5, token_6)
-    print('Device: We enter the 6th token into the device')
-    device_simulator.enter_token(token_6)
+    token_7 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_8 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_9 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    print('Tokens: ', token_1, token_2, token_3, token_4, token_5, token_6, token_7, token_8, token_9)
+    print('Device: We enter the 9th token into the device')
+    device_simulator.enter_token(token_9)
     print('Device: We check the device status (should be active with +1 day (2 days total)')
     device_simulator.print_status()
     assert device_simulator.count == server_simulator.count

@@ -27,6 +27,9 @@ class OPAYGOEncoder(object):
         final_token = OPAYGOShared.put_base_in_token(current_token, token_base)
         if restricted_digit_set:
             final_token = OPAYGOShared.convert_to_4_digit_token(final_token)
+            final_token = '{:015d}'.format(final_token)
+        else:
+            final_token = '{:09d}'.format(final_token)
         return new_count, final_token
 
     @classmethod
@@ -47,6 +50,9 @@ class OPAYGOEncoder(object):
         final_token = OPAYGOSharedExtended.put_base_in_token(current_token, token_base)
         if restricted_digit_set:
             final_token = OPAYGOSharedExtended.convert_to_4_digit_token(final_token)
+            final_token = '{:020d}'.format(final_token)
+        else:
+            final_token = '{:012d}'.format(final_token)
         return new_count, final_token
 
     @classmethod

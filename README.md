@@ -21,6 +21,10 @@ please make sure to update to the latest version before using in production.
 
 ## CHANGELOG
 
+2021-06-24: v2.1.5 release
+- Added padding of tokens with 0 directly to the generator
+- Modified tests to work with recommended settings for unordered token entry
+
 2021-05-04: v2.1.4 release
 - Added tool to automatically generate spreadsheets with tokens for the test procedure
 - Clarify ambiguity about the re-enabling of PAYG
