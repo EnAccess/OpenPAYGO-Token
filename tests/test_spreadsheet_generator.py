@@ -1,8 +1,17 @@
-import os, sys, inspect
+import inspect
+import os
+import sys
 parentdir = os.path.dirname(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))))
 sys.path.insert(0, parentdir)
-from tests.helpers import ADD_TIME, SET_TIME, DISABLE_VALUE, generate_from_device_data, test_accepted, test_how_many_days, test_name
-
+from tests.helpers import (
+    ADD_TIME,
+    SET_TIME,
+    DISABLE_VALUE,
+    generate_from_device_data,
+    test_accepted,
+    test_how_many_days,
+    test_name
+)
 
 def run_core_token_tests(device_data):
 
@@ -32,13 +41,13 @@ def run_core_token_tests(device_data):
     test_how_many_days('G6', token_g6, 0, description=test)
 
     test = 'We enter 3 consecutive Add Time tokens with the maximum amount of days and ensure that they cumulate properly'
-    for i in range(1,3+1):
+    for i in range(1, 3+1):
         device_data, token_g7 = generate_from_device_data(device_data, token_type=ADD_TIME, value_raw=995)
         test_how_many_days(test_name('G7', i), token_g7, value_raw=995*i, device_data=device_data, description=test)
         test = ''
 
     test = 'We enter 21 consecutive Set Time tokens for 1, 2, 3, … 21 days each with a count 30 higher than the other. The validation of the token should not take more than 5 seconds'
-    for i in range(1,21+1):
+    for i in range(1, 21+1):
         device_data, token_g8 = generate_from_device_data(device_data, token_type=SET_TIME, value_days=i, token_count=device_data['token_count']+29)
         test_how_many_days(test_name('G8', i), token_g8, value_days=i, device_data=device_data, description=test)
         test = ''
@@ -62,12 +71,12 @@ def run_core_token_tests(device_data):
     test_how_many_days('G12A', token_g12a, 0, description=test)
     device_data, token_g12b = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=1)
     test_how_many_days('G12B', token_g12b, 1)
-    
+
     return device_data
 
 
 def run_unordered_entry_tests(device_data):
-    
+
     test = 'We generate 3 Add Time tokens, then enter the 3rd, then first, then second and ensure the days are added properly'
     device_data, token_u1a = generate_from_device_data(device_data, token_type=SET_TIME, value_days=60)
     test_how_many_days('U1A', token_u1a, 60, description=test)
@@ -95,6 +104,31 @@ def run_unordered_entry_tests(device_data):
     return device_data
 
 
+def run_hardware_tests(device_data):
+
+    test = 'We will test that the device is able to accurately keep track of credit for 2 days. Follow H1 instructions on Angaza QA'
+    device_data, token_h1a = generate_from_device_data(device_data, token_type=SET_TIME, value_days=2)
+    test_how_many_days('H1A', token_h1a, 2, description=test)
+
+    test = 'We will test NV persistence of tokens by generating these tokens. Follow H2 instructions on Angaza QA'
+    device_data, token_h2a = generate_from_device_data(device_data, token_type=SET_TIME, value_days=1)
+    test_how_many_days('H2A', token_h2a, 1, description=test)
+    device_data, token_h2b = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=2)
+    test_how_many_days('H2B', token_h2b, 2)
+    device_data, token_h2c = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=DISABLE_VALUE)
+    test_how_many_days('H2C', token_h2c, 'unlimited')
+
+    test = 'We will enter token slowly to ensure quality user experience. Follow H4 instructions on Angaza QA'
+    device_data, token_h4a = generate_from_device_data(device_data, token_type=SET_TIME, value_days=0)
+    test_how_many_days('H4A', token_h4a, 0, description=test)
+
+    test = 'We will test that credit tracking continues for 168 hours once device hits low battery voltage. Follow H5 instructions on Angaza QA'
+    device_data, token_h5a = generate_from_device_data(device_data, token_type=SET_TIME, value_days=5)
+    test_how_many_days('H5A', token_h5a, 5, description=test)
+    device_data, token_h5b = generate_from_device_data(device_data, token_type=SET_TIME, value_days=7)
+    test_how_many_days('H5B', token_h5b, 7, description=test)
+
+    return device_data
 
 
 if __name__ == '__main__':
@@ -109,3 +143,4 @@ if __name__ == '__main__':
     print('Test Name,Token Used,Expected Result,Test Details,Result')
     device_data = run_core_token_tests(device_data)
     device_data = run_unordered_entry_tests(device_data)
+    device_data = run_hardware_tests(device_data)
