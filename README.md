@@ -21,6 +21,11 @@ please make sure to update to the latest version before using in production.
 
 ## CHANGELOG
 
+2022-09-05: v2.2.0 release
+- Packaged into a PIP package (thanks to the work of @wan5xp)
+- Folder structure cleanup
+- Tests improvements
+
 2021-06-24: v2.1.5 release
 - Added padding of tokens with 0 directly to the generator
 - Modified tests to work with recommended settings for unordered token entry

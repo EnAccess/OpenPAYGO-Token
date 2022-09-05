@@ -1,8 +1,5 @@
-import os, sys, inspect
-parentdir = os.path.dirname(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))))
-sys.path.insert(0, parentdir)
-from tests.helpers import ADD_TIME, SET_TIME, DISABLE_VALUE, generate_from_device_data, test_accepted_validator, test_how_many_days_validator, test_name
-from simulators.device_simulator import DeviceSimulator
+from .helpers import ADD_TIME, SET_TIME, DISABLE_VALUE, generate_from_device_data, test_accepted_validator, test_how_many_days_validator, test_name
+from openpaygo-token.simulators import DeviceSimulator
 import codecs
 
 

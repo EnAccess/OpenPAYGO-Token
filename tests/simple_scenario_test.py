@@ -1,10 +1,6 @@
-import os, sys, inspect
-parentdir = os.path.dirname(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))))
-sys.path.insert(0, parentdir)
-from simulators.device_simulator import DeviceSimulator
-from simulators.server_simulator import SingleDeviceServerSimulator, OPAYGOShared
+from openpaygo-token.simulators import DeviceSimulator, SingleDeviceServerSimulator
+from openpaygo-token import OPAYGOShared
 from datetime import datetime, timedelta
-import codecs
 
 
 def assert_time_equals(time1, time2):

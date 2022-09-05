@@ -1,7 +1,4 @@
-import os, sys, inspect
-parentdir = os.path.dirname(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))))
-sys.path.insert(0, parentdir)
-from tests.helpers import ADD_TIME, SET_TIME, DISABLE_VALUE, generate_from_device_data, test_accepted, test_how_many_days, test_name
+from .helpers import ADD_TIME, SET_TIME, DISABLE_VALUE, generate_from_device_data, test_accepted, test_how_many_days, test_name
 
 
 def run_core_token_tests(device_data):
