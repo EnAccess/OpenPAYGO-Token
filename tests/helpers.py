@@ -10,6 +10,9 @@ SET_TIME = 1
 ADD_TIME = 2
 DISABLE_VALUE = 998
 
+START_RED = '\033[91m'
+END_RED = '\033[0m'
+
 
 def generate_from_device_data(device_data, token_type, value_raw=None, value_days=None, token_count=None):
     assert (value_days is not None) or (value_raw is not None)
@@ -42,17 +45,18 @@ def test_accepted(test_name, token, expected, description=''):
     print(test_name+','+token+','+expected_string+',"'+description+'"')
 
 
-def test_how_many_days_validator(device_simulator, test_name, token, value_days=None, value_raw=None, device_data=None, description=''):
+def test_how_many_days_validator(device_simulator, test_name, token, value_days=None, value_raw=None, device_data=None, description='', accepted_but_used=False):
     if value_days is None:
         if value_raw is not None:
             value_days = value_raw/device_data['time_divider']
         else:
             value_days = 'infinite'
-    if device_simulator.enter_token(token.replace(' ', ''), show_result=False):
+    result = device_simulator.enter_token(token.replace(' ', ''), show_result=False)
+    if result == 1 or (accepted_but_used and result == -2):
         if device_simulator.get_days_remaining() == value_days:
             print(test_name+': Passed')
             return
-    print(test_name+': Failed')
+    print(START_RED+test_name+': Failed'+END_RED)
 
 
 def test_accepted_validator(device_simulator, test_name, token, expected, description=''):
@@ -60,7 +64,7 @@ def test_accepted_validator(device_simulator, test_name, token, expected, descri
         print(test_name+': Passed')
         return
     else:
-        print(test_name+': Failed')
+        print(START_RED+test_name+': Failed'+END_RED)
 
 
 def test_name(test_base_name, test_number):

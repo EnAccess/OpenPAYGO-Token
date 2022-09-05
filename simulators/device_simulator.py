@@ -65,11 +65,11 @@ class DeviceSimulator(object):
                 print('TOKEN_INVALID')
             self.invalid_token_count += 1
             self.token_entry_blocked_until = datetime.now() + timedelta(minutes=2**self.invalid_token_count)
-            return False
+            return -1
         elif token_value == -2:
             if show_result:
                 print('OLD_TOKEN')
-            return True
+            return -2
         else:
             if show_result:
                 print('TOKEN_VALID', ' | Value:', token_value)
@@ -78,7 +78,7 @@ class DeviceSimulator(object):
             self.used_counts = OPAYGODecoder.update_used_counts(self.used_counts, token_value, token_count, token_type)
             self.invalid_token_count = 0
             self._update_device_status_from_token_value(token_value, token_type)
-            return True
+            return 1
 
     def _update_device_status_from_extended_token(self, token):
         if self.token_entry_blocked_until > datetime.now() and self.waiting_period_enabled:

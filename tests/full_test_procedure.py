@@ -13,7 +13,7 @@ def run_core_token_tests(device_data, device_simulator):
 
     test = 'We enter an invalid token'
     token_g1 = '123 456 789'
-    test_accepted_validator(device_simulator, 'G1', token_g1, False, description=test)
+    test_accepted_validator(device_simulator, 'G1', token_g1, -1, description=test)
 
     test = 'We enter a valid token for setting one day'
     device_data, token_g2 = generate_from_device_data(device_data, token_type=SET_TIME, value_days=1)
@@ -24,9 +24,9 @@ def run_core_token_tests(device_data, device_simulator):
     test_how_many_days_validator(device_simulator, 'G3', token_g3, 2, description=test)
 
     test = 'We enter the same Add Time token for 1 day, the days should not be added and the device should signal that the token was already used'
-    test_how_many_days_validator(device_simulator, 'G4A', token_g3, 2, description=test)
+    test_how_many_days_validator(device_simulator, 'G4A', token_g3, 2, description=test, accepted_but_used=True)
     test = 'We enter the older Set Time token for 1 day, the days should not change and the device should signal that the token was already used'
-    test_how_many_days_validator(device_simulator, 'G4B', token_g2, 2, description=test)
+    test_how_many_days_validator(device_simulator, 'G4B', token_g2, 2, description=test, accepted_but_used=True)
 
     test = 'We enter a valid token for setting 30 days and ensures it sets and does not add to the existing'
     device_data, token_g5 = generate_from_device_data(device_data, token_type=SET_TIME, value_days=30)
@@ -88,14 +88,14 @@ def run_unordered_entry_tests(device_data, device_simulator):
     device_data, token_u2b = generate_from_device_data(device_data, token_type=SET_TIME, value_days=10)
     device_data, token_u2c = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=3)
     test_how_many_days_validator(device_simulator, 'U2A', token_u2b, 10, description=test)
-    test_how_many_days_validator(device_simulator, 'U2B', token_u2a, 10)
+    test_how_many_days_validator(device_simulator, 'U2B', token_u2a, 10, accepted_but_used=True)
     test_how_many_days_validator(device_simulator, 'U2C', token_u2c, 13)
 
     test = 'We generate an Add Time token and a Disable PAYG token, we enter the Disable PAYG token and then the Add Time token should be refused'
     device_data, token_u3a = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=1)
     device_data, token_u3b = generate_from_device_data(device_data, token_type=ADD_TIME, value_raw=DISABLE_VALUE)
     test_how_many_days_validator(device_simulator, 'U3A', token_u3b, None, description=test)
-    test_how_many_days_validator(device_simulator, 'U3B', token_u3a, None)
+    test_how_many_days_validator(device_simulator, 'U3B', token_u3a, None, accepted_but_used=True)
 
     return device_data
 
