@@ -13,9 +13,9 @@ class OPAYGODecoder(object):
         if restricted_digit_set:
             token = OPAYGOShared.convert_from_4_digit_token(token)
         valid_older_token = False
-        token_base = OPAYGOShared.get_token_base(token) # We get the base of the token
-        current_code = OPAYGOShared.put_base_in_token(starting_code, token_base) # We put it into the starting code
-        starting_code_base = OPAYGOShared.get_token_base(starting_code) # We get the base of the starting code
+        token_base = OPAYGOShared.get_token_base(token)  # We get the base of the token
+        current_code = OPAYGOShared.put_base_in_token(starting_code, token_base)  # We put it into the starting code
+        starting_code_base = OPAYGOShared.get_token_base(starting_code)  # We get the base of the starting code
         value = cls._decode_base(starting_code_base, token_base)  # If there is a match we get the value from the token
         # We try all combination up until last_count + TOKEN_JUMP, or to the larger jump if syncing counter
         # We could start directly the loop at the last count if we kept the token value for the last count
@@ -26,15 +26,15 @@ class OPAYGODecoder(object):
         for count in range(0, max_count_try):
             masked_token = OPAYGOShared.put_base_in_token(current_code, token_base)
             if count % 2:
-                type = OPAYGOShared.TOKEN_TYPE_SET_TIME
+                this_type = OPAYGOShared.TOKEN_TYPE_SET_TIME
             else:
-                type = OPAYGOShared.TOKEN_TYPE_ADD_TIME
+                this_type = OPAYGOShared.TOKEN_TYPE_ADD_TIME
             if masked_token == token:
-                if cls._count_is_valid(count, last_count, value, type, used_counts):
-                    return value, count, type
+                if cls._count_is_valid(count, last_count, value, this_type, used_counts):
+                    return value, count, this_type
                 else:
                     valid_older_token = True
-            current_code = OPAYGOShared.generate_next_token(current_code, key) # If not we go to the next token
+            current_code = OPAYGOShared.generate_next_token(current_code, key)  # If not we go to the next token
         if valid_older_token:
             return -2, None, None
         return None, None, None
