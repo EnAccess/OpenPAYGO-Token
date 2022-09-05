@@ -4,6 +4,11 @@ This project is supported by the EnAccess Foundation (https://enaccess.org/)
 
 Hardware implementation with generic C version + Arduino + schematics: https://github.com/EnAccess/OpenPAYGO-HW
 
+## INSTALLATION
+
+1. Run ```pip install openpaygo-token```
+2. That's it, you're ready to go. Check the test scenarios to see how to use the libraries to generate and check tokens. 
+
 
 ## GETTING STARTED
 
@@ -12,11 +17,6 @@ Hardware implementation with generic C version + Arduino + schematics: https://g
 2. The source code of the example implementation into a device (including an example for begginers implemented on Arduino): https://github.com/EnAccess/OpenPAYGO-HW
 
 3. The guide for the example, including a quick test to see if you have implemented the code properly into your system: https://github.com/EnAccess/OpenPAYGO/blob/master/documentation/example_implementation_documentation.pdf
-
-
-## NOTE 
-If you have pulled or downloaded this implementation before the official OpenPAYGO Token release on the 10th of October 2019, 
-please make sure to update to the latest version before using in production. 
 
 
 ## CHANGELOG
@@ -68,3 +68,11 @@ please make sure to update to the latest version before using in production.
 - First functional pre-release version
 
 **Note:** The v1.0 version was only provided to a few partners for a limited beta test and to gather feedback useful to make the v2.0, it is not published here, is not compatible with the v2.0 and should not be used in production. 
+
+
+## PUBLISHING
+
+(For internal use of Solaris Offgrid)
+To publish run:
+1. ```python setup.py sdist```
+2. ```twine upload dist/*```
