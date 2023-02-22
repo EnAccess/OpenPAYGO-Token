@@ -1,5 +1,7 @@
-from openpaygo-token import OPAYGOEncoder
 import codecs
+
+from importlib import import_module
+openpaygo_token = import_module("openpaygo-token")
 
 
 SET_TIME = 1
@@ -14,7 +16,7 @@ def generate_from_device_data(device_data, token_type, value_raw=None, value_day
     assert (value_days is not None) or (value_raw is not None)
     if value_raw is None:
         value_raw = value_days*device_data['time_divider']
-    device_data['token_count'], token = OPAYGOEncoder.generate_standard_token(
+    device_data['token_count'], token = openpaygo_token.OPAYGOEncoder.generate_standard_token(
         starting_code=device_data['starting_code'],
         key=codecs.decode(device_data['key'], 'hex'),
         value=value_raw,

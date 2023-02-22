@@ -1,5 +1,5 @@
-from shared import OPAYGOShared
-from shared_extended import OPAYGOSharedExtended
+from .shared import OPAYGOShared
+from .shared_extended import OPAYGOSharedExtended
 
 
 class OPAYGOEncoder(object):
