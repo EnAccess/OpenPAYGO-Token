@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
-from shared import OPAYGOShared
-from decode_token import OPAYGODecoder
+from ..shared import OPAYGOShared
+from ..decode_token import OPAYGODecoder
 
 
 class DeviceSimulator(object):
@@ -37,7 +37,7 @@ class DeviceSimulator(object):
         else:
             token_int = int(token)
             return self._update_device_status_from_extended_token(token_int, show_result)
-    
+
     def get_days_remaining(self):
         if self.payg_enabled:
             td = self.expiration_date - datetime.now()

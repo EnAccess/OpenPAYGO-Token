@@ -1,7 +1,8 @@
-from .helpers import ADD_TIME, SET_TIME, DISABLE_VALUE, generate_from_device_data, test_accepted_validator, test_how_many_days_validator, test_name
-from openpaygo-token.simulators import DeviceSimulator
+from helpers import ADD_TIME, SET_TIME, DISABLE_VALUE, generate_from_device_data, test_accepted_validator, test_how_many_days_validator, test_name
 import codecs
 
+from importlib import import_module
+simulators = import_module("openpaygo-token.simulators")
 
 # This tests the device simulator against the full test procedure
 
@@ -64,12 +65,12 @@ def run_core_token_tests(device_data, device_simulator):
     test_how_many_days_validator(device_simulator, 'G12A', token_g12a, 0, description=test)
     device_data, token_g12b = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=1)
     test_how_many_days_validator(device_simulator, 'G12B', token_g12b, 1)
-    
+
     return device_data
 
 
 def run_unordered_entry_tests(device_data, device_simulator):
-    
+
     test = 'We generate 3 Add Time tokens, then enter the 3rd, then first, then second and ensure the days are added properly'
     device_data, token_u1a = generate_from_device_data(device_data, token_type=SET_TIME, value_days=60)
     test_how_many_days_validator(device_simulator, 'U1A', token_u1a, 60, description=test)
@@ -108,7 +109,7 @@ if __name__ == '__main__':
         'time_divider': 1,
         'token_count': 1
     }
-    device_simulator = DeviceSimulator(device_data['starting_code'], codecs.decode(device_data['key'], 'hex'),
+    device_simulator = simulators.DeviceSimulator(device_data['starting_code'], codecs.decode(device_data['key'], 'hex'),
                                        restricted_digit_set=device_data['restricted_digit_set'],
                                        waiting_period_enabled=False)
     device_data = run_core_token_tests(device_data, device_simulator)

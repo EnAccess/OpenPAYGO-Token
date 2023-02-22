@@ -1,6 +1,6 @@
 from datetime import datetime
-from encode_token import OPAYGOEncoder
-from shared import OPAYGOShared
+from ..encode_token import OPAYGOEncoder
+from ..shared import OPAYGOShared
 
 
 class SingleDeviceServerSimulator(object):

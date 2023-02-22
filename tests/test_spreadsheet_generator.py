@@ -1,4 +1,4 @@
-from .helpers import ADD_TIME, SET_TIME, DISABLE_VALUE, generate_from_device_data, test_accepted, test_how_many_days, test_name
+from helpers import ADD_TIME, SET_TIME, DISABLE_VALUE, generate_from_device_data, test_accepted, test_how_many_days, test_name
 
 
 def run_core_token_tests(device_data):
@@ -59,12 +59,12 @@ def run_core_token_tests(device_data):
     test_how_many_days('G12A', token_g12a, 0, description=test)
     device_data, token_g12b = generate_from_device_data(device_data, token_type=ADD_TIME, value_days=1)
     test_how_many_days('G12B', token_g12b, 1)
-    
+
     return device_data
 
 
 def run_unordered_entry_tests(device_data):
-    
+
     test = 'We generate 3 Add Time tokens, then enter the 3rd, then first, then second and ensure the days are added properly'
     device_data, token_u1a = generate_from_device_data(device_data, token_type=SET_TIME, value_days=60)
     test_how_many_days('U1A', token_u1a, 60, description=test)

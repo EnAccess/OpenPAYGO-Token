@@ -1,6 +1,8 @@
-from openpaygo-token.simulators import DeviceSimulator, SingleDeviceServerSimulator
-from openpaygo-token import OPAYGOShared
 from datetime import datetime, timedelta
+
+from importlib import import_module
+openpaygo_token = import_module("openpaygo-token")
+simulators = import_module("openpaygo-token.simulators")
 
 
 def assert_time_equals(time1, time2):
@@ -17,11 +19,11 @@ if __name__ == '__main__':
     restricted_digit_set = False
 
     print('Device: We initiate the device simulator with our device')
-    device_simulator = DeviceSimulator(device_starting_code, device_key,
+    device_simulator = simulators.DeviceSimulator(device_starting_code, device_key,
                                        restricted_digit_set=restricted_digit_set,
                                        waiting_period_enabled=False)
     print('Server: We initiate the server simulator with our device')
-    server_simulator = SingleDeviceServerSimulator(device_starting_code, device_key,
+    server_simulator = simulators.SingleDeviceServerSimulator(device_starting_code, device_key,
                                                    restricted_digit_set=restricted_digit_set)
 
     print('\n')
@@ -115,15 +117,15 @@ if __name__ == '__main__':
 
     print('\n')
     print('Server: We add generate 9 tokens each add-time of 1 day')
-    token_1 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
-    token_2 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
-    token_3 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
-    token_4 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
-    token_5 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
-    token_6 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
-    token_7 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
-    token_8 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
-    token_9 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_1 = server_simulator._generate_token_from_value(1, openpaygo_token.OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_2 = server_simulator._generate_token_from_value(1, openpaygo_token.OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_3 = server_simulator._generate_token_from_value(1, openpaygo_token.OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_4 = server_simulator._generate_token_from_value(1, openpaygo_token.OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_5 = server_simulator._generate_token_from_value(1, openpaygo_token.OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_6 = server_simulator._generate_token_from_value(1, openpaygo_token.OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_7 = server_simulator._generate_token_from_value(1, openpaygo_token.OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_8 = server_simulator._generate_token_from_value(1, openpaygo_token.OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_9 = server_simulator._generate_token_from_value(1, openpaygo_token.OPAYGOShared.TOKEN_TYPE_ADD_TIME)
     print('Tokens: ', token_1, token_2, token_3, token_4, token_5, token_6, token_7, token_8, token_9)
     print('Device: We enter the 9th token into the device')
     device_simulator.enter_token(token_9)
@@ -147,8 +149,8 @@ if __name__ == '__main__':
 
     print('\n')
     print('Server: We add generate 2 tokens, first add-time and then set-time')
-    token_1 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
-    token_2 = server_simulator._generate_token_from_value(0, OPAYGOShared.TOKEN_TYPE_SET_TIME)
+    token_1 = server_simulator._generate_token_from_value(1, openpaygo_token.OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_2 = server_simulator._generate_token_from_value(0, openpaygo_token.OPAYGOShared.TOKEN_TYPE_SET_TIME)
     print('Tokens: ', token_1, token_2)
     print('Device: We enter the 2nd token')
     device_simulator.enter_token(token_2)
@@ -165,8 +167,8 @@ if __name__ == '__main__':
 
     print('\n')
     print('Server: We add generate 2 tokens, first add-time and then set-time')
-    token_1 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_SET_TIME)
-    token_2 = server_simulator._generate_token_from_value(1, OPAYGOShared.TOKEN_TYPE_ADD_TIME)
+    token_1 = server_simulator._generate_token_from_value(1, openpaygo_token.OPAYGOShared.TOKEN_TYPE_SET_TIME)
+    token_2 = server_simulator._generate_token_from_value(1, openpaygo_token.OPAYGOShared.TOKEN_TYPE_ADD_TIME)
     print('Tokens: ', token_1, token_2)
     print('Device: We enter the 2nd token')
     device_simulator.enter_token(token_2)
