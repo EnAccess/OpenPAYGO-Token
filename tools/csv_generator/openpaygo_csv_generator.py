@@ -27,7 +27,7 @@ def generate_csv(serial_start, number_of_devices, config):
     firmware_version = base_config['firmware_version']
     filename = 'openpaygo_batch_' + number_to_serial(manufacturer_prefix, serial_start+1) + '-' + \
                number_to_serial(manufacturer_prefix, serial_start+number_of_devices) + '.csv'
-    with open(filename, 'w') as csvfile:
+    with open(filename, 'w', newline='') as csvfile:
         device_list_csv = csv.writer(csvfile, delimiter=',')
         headers = ['Serial Number', 'Starting Code', 'Key', 'Count', 'Time Divider', 'Restricted Digit Mode',
                    'Hardware Model', 'Firmware Version']
