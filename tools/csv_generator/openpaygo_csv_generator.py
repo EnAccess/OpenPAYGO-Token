@@ -32,7 +32,7 @@ def generate_csv(serial_start, number_of_devices, config):
         headers = ['Serial Number', 'Starting Code', 'Key', 'Count', 'Time Divider', 'Restricted Digit Mode',
                    'Hardware Model', 'Firmware Version']
         device_list_csv.writerow(headers)
-        for number in range(1, number_of_devices+1):
+        for number in range(serial_start + 1, serial_start + number_of_devices + 1):
             device_serial = number_to_serial(manufacturer_prefix, number)
             starting_code = random.randint(1, 999999999)
             key = codecs.encode(os.urandom(16), 'hex').decode('utf-8')
