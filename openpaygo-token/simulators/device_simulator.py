@@ -105,7 +105,7 @@ class DeviceSimulator(object):
                 self._update_expiration_date_from_value(token_value, token_type)
         elif token_value == OPAYGOShared.PAYG_DISABLE_VALUE:
             self.payg_enabled = False
-        elif token_value != OPAYGOShared.COUNTER_SYNC_VALUE:
+        elif token_value == OPAYGOShared.COUNTER_SYNC_VALUE:
             # We do nothing if its the sync counter value, the counter has been synced already
             print('COUNTER_SYNCED')
         else:
