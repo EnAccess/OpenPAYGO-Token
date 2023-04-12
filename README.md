@@ -1,3 +1,34 @@
+<p align="center">
+  <a href="https://github.com/EnAccess/OpenSmartMeter">
+    <img
+      src="https://enaccess.org/wp-content/uploads/2023/04/Open-PAYGO-Graphic-GitHub-2240-%C3%97-800-.svg"
+      alt="OpenPAYGO Token"
+      width="640"
+    >
+  </a>
+</p>
+<p align="center">
+    <em>The OpenPAYGO Token is an open source token system to enable PAYGO functionality in new products.</em>
+</p>
+<p align="center">
+  <img
+    alt="Project Status"
+    src="https://img.shields.io/badge/Project%20Status-stable-green"
+  >
+  <img
+    alt="GitHub Workflow Status"
+    src="https://img.shields.io/github/actions/workflow/status/EnAccess/OpenPAYGO-Token/openpaygo-token.yaml"
+  >
+  <a href="https://github.com/EnAccess/OpenPAYGO-Token/blob/main/LICENSE" target="_blank">
+    <img
+      alt="License"
+      src="https://img.shields.io/github/license/EnAccess/OpenPAYGO-Token"
+    >
+  </a>
+</p>
+
+---
+
 # OpenPAYGO Token v2
 
 This project is supported by the EnAccess Foundation (https://enaccess.org/)
@@ -7,7 +38,7 @@ Hardware implementation with generic C version + Arduino + schematics: https://g
 ## INSTALLATION
 
 1. Run ```pip install openpaygo-token```
-2. That's it, you're ready to go. Check the test scenarios to see how to use the libraries to generate and check tokens. 
+2. That's it, you're ready to go. Check the test scenarios to see how to use the libraries to generate and check tokens.
 
 
 ## GETTING STARTED
@@ -46,7 +77,7 @@ Hardware implementation with generic C version + Arduino + schematics: https://g
 - Added an example of unordered token entry (with test scenario) on the Python implementation
 - Ensured compatibility of the Python code with Python v2.7+ (in addition to Python 3+ already supported).
 
-**Note:** This version is fully retro-compatible with the v2.0, the tokens themselves do not change. Changes can be implemented on devices that wish to support unordered token entry but are not required. No change is required on servers. 
+**Note:** This version is fully retro-compatible with the v2.0, the tokens themselves do not change. Changes can be implemented on devices that wish to support unordered token entry but are not required. No change is required on servers.
 
 2019-10-10: v2.0.0 release
 - Improved the test suite
@@ -67,7 +98,7 @@ Hardware implementation with generic C version + Arduino + schematics: https://g
 2019-07-19: v2.0 alpha
 - First functional pre-release version
 
-**Note:** The v1.0 version was only provided to a few partners for a limited beta test and to gather feedback useful to make the v2.0, it is not published here, is not compatible with the v2.0 and should not be used in production. 
+**Note:** The v1.0 version was only provided to a few partners for a limited beta test and to gather feedback useful to make the v2.0, it is not published here, is not compatible with the v2.0 and should not be used in production.
 
 
 ## PUBLISHING
