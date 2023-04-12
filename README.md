@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/EnAccess/OpenSmartMeter">
+  <a href="https://github.com/EnAccess/OpenPAYGO-Token">
     <img
       src="https://enaccess.org/wp-content/uploads/2023/04/Open-PAYGO-Graphic-GitHub-2240-%C3%97-800-.svg"
       alt="OpenPAYGO Token"
