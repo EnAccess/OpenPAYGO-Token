@@ -1,3 +1,21 @@
+# ⚠️ IMPORTANT NOTE
+
+This is repository is **deprecated**.
+Please upgrade to [OpenPAYGO-python](https://github.com/EnAccess/OpenPAYGO-python).
+
+**Background:**
+
+The OpenPAYGO suite consists of multiple components (Token, Pass, Link, etc..).
+In the past this repository only hosted the **Python** code for the **Token** component.
+To improve user experience all OpenPAYGO functionality is now hosted in a shared library [OpenPAYGO-python](https://github.com/EnAccess/OpenPAYGO-python).
+
+**Further information:**
+
+- <https://enaccess.org/materials/openpaygotoken/>
+- <https://www.paygops.com/openpaygosuite>
+
+---
+
 <p align="center">
   <a href="https://github.com/EnAccess/OpenPAYGO-Token">
     <img
